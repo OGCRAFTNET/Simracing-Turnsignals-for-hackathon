@@ -38,8 +38,12 @@ The turn signal unit should be mountable to a wheelbase, sim rig, or desk and **
 ## 📅 Development Roadmap
 
 ### Phase 1: Research
-- [ ] Find suitable automotive turn signal stalks
-- [ ] Compare different Arduino boards
+- [X] Find suitable automotive turn signal stalks  :https://www.amazon.de/-/en/Steering-Column-Windscreen-Indicator-Combination/dp/B0DBHG1CG9/ref=sr_1_58?dib=eyJ2IjoiMSJ9.72eNbnctxAOpDtwd3CqorCOzffyUcLiWLBHD4cDgrLVW-Uru2PEn2nYs2smaKX7oCn-gIXZgXwW16xxFoh3NXNRUHiclqcex5mqBHw6z5CsK8w7T7-kj4dL5WOFSYyKCPuhv5ZcZXqu_tIED_E0qhsFwD9VecnQoVml38dt9itl3MdmMVlh1lFBj01Gos-KVKM_3aQaZkx4Wljt-OwtdwmD-XBxl68eshcBedVY0Qhq4cMDvijJpJrdC4DrqfJ85KKB8QloWM2RFlJaAU6L88ZJFkPCLQW9veyWJlKRJs58.TBRfN9oJoYlS8EK9manu0Q0wjz25AqYAVZ7STqdDSd0&dib_tag=se&keywords=Blinkerhebel&qid=1780939365&sr=8-58
+
+
+- [X] Compare different Arduino boards: Arduino Pro Micro  is the best i guess: https://www.amazon.de/-/en/Development-Microcontroller-Integrated-Interface-Compatible/dp/B0FPFHM6DX/ref=sr_1_1?crid=360SYEBBYZ0VO&dib=eyJ2IjoiMSJ9.YPqPGqWkZewwtleJq7Hds7iTEWnVDkyqA8d_E6PVY5RBpJipDPCtURICMQR_uEfemu5w6N09xPU20jcoq5yWBYA0m8XNc7JEnY1Y4BK8telBtEwbLX5LNbNcgzBdfc28WCIphKdHDv9re6CnUPLwt5CbGszeJKIiP__lCjiPIpOb_C5tatwvsRjEX1PY8z9acEduNkuiKBnkUxtjn79pDlkI-9-mrscWGzmWOfUFQN9o9TOBkF_9FDV4HhJzHPA8qanJ5JjMWX63BpLhVpsrx3GBaaNQrOsoxGx1PqVVvqk.eMbDwH5tBbn5L6ZfQ6WHeWmUHs5XXP2gJIrS60VdVGM&dib_tag=se&keywords=Arduino+Pro+Micro&qid=1780939571&sprefix=arduino+pro+micro%2Caps%2C146&sr=8-1
+
+
 - [ ] Research USB HID implementation
 - [ ] Investigate compatibility with major sim racing ecosystems
 
