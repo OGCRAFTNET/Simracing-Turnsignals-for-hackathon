@@ -1,416 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sim Racing Turn Signals - Project Hub</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons for nice graphics -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body {
-            background-color: #0f172a;
-            color: #f1f5f9;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turn Signals for Sim Racing & Trucking</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 960px;
+      padding: 32px;
+      border-radius: 24px;
+      background: rgba(15, 23, 42, 0.95);
+      box-shadow: 0 25px 80px rgba(15, 23, 42, 0.5);
+    }
+    h1 {
+      margin-top: 0;
+      color: #38bdf8;
+    }
+    h2 {
+      color: #7dd3fc;
+      margin-bottom: 12px;
+    }
+    p, li {
+      line-height: 1.7;
+    }
+    ul {
+      padding-left: 1.3rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      background: #1e293b;
+      color: #a5b4fc;
+      margin-bottom: 16px;
+    }
+    .grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .card {
+      background: #111827;
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 18px;
+      padding: 20px;
+    }
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+  </style>
 </head>
-<body class="min-h-screen pb-12">
-    <!-- Header -->
-    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-blue-600 p-2 rounded-lg text-white">
-                    <i data-lucide="navigation"></i>
-                </div>
-                <div>
-                    <h1 class="text-xl font-bold tracking-tight">DIY Sim Racing Turn Signals</h1>
-                    <p class="text-xs text-slate-400">Plug-and-play USB controller with Arduino Pro Micro</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-4 bg-slate-800/80 px-4 py-2 rounded-full border border-slate-700">
-                <span class="text-xs text-slate-400">Project Progress:</span>
-                <div class="w-32 bg-slate-700 rounded-full h-2 overflow-hidden">
-                    <div id="progressBar" class="bg-emerald-500 h-full transition-all duration-300" style="width: 20%;"></div>
-                </div>
-                <span id="progressText" class="text-xs font-semibold text-emerald-400">20%</span>
-            </div>
-        </div>
-    </header>
+<body>
+  <main class="container">
+    <span class="badge">Sim Racing Turn Signal Accessory</span>
+    <h1>Turn Signals for Sim Racing &amp; Trucking</h1>
+    <p>Ein Projekt zur Erstellung eines realistischen, USB-basierten Blinker-Controllers für Sim-Racing- und Lkw-Simulatoren. Das Gerät verwendet einen echten autofahrerischen Blinkhebel und ist an ein Arduino Pro Micro angeschlossen.</p>
 
-    <main class="max-w-6xl mx-auto px-4 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <!-- Sidebar Navigation -->
-        <nav class="lg:col-span-3 flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 scrollbar-none">
-            <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-medium transition-all bg-blue-600/10 text-blue-400 border border-blue-500/20">
-                <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
-            </button>
-            <button onclick="switchTab('hardware')" id="btn-hardware" class="tab-btn w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-medium transition-all text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
-                <i data-lucide="cpu" class="w-5 h-5"></i> Hardware & Wiring
-            </button>
-            <button onclick="switchTab('code')" id="btn-code" class="tab-btn w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-medium transition-all text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
-                <i data-lucide="code" class="w-5 h-5"></i> Arduino Firmware
-            </button>
-            <button onclick="switchTab('chassis')" id="btn-chassis" class="tab-btn w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-medium transition-all text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
-                <i data-lucide="layers" class="w-5 h-5"></i> Chassis & Mounting
-            </button>
-            <button onclick="switchTab('games')" id="btn-games" class="tab-btn w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-medium transition-all text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
-                <i data-lucide="gamepad-2" class="w-5 h-5"></i> Game Setup
-            </button>
-        </nav>
+    <section>
+      <h2>Projektziele</h2>
+      <ul>
+        <li>Realistische Steuerung mit einem echten Blinkhebel</li>
+        <li>USB Plug-and-Play als HID-Gerät</li>
+        <li>Unterstützung für Spiele wie Rennsimulationen und Truck-Simulatoren</li>
+        <li>Konfigurierbare Tastenbelegung und optionale RGB-Beleuchtung</li>
+      </ul>
+    </section>
 
-        <!-- Main Content Area -->
-        <div class="lg:col-span-9 space-y-8">
-            
-            <!-- TAB 1: DASHBOARD (Overview & Checklist) -->
-            <section id="tab-dashboard" class="tab-content space-y-8">
-                <!-- Welcome Card -->
-                <div class="bg-gradient-to-r from-slate-900 to-slate-800 p-6 rounded-xl border border-slate-800 relative overflow-hidden">
-                    <div class="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-y-1/4 translate-x-1/8">
-                        <i data-lucide="navigation" class="w-64 h-64 text-blue-500"></i>
-                    </div>
-                    <div class="relative z-10 max-w-xl">
-                        <span class="bg-blue-500/10 text-blue-400 text-xs font-semibold px-2.5 py-1 rounded-full border border-blue-500/30">100% PC Universal</span>
-                        <h2 class="text-2xl font-bold mt-3 mb-2">Sim & Truck Turn Signals</h2>
-                        <p class="text-slate-300 text-sm leading-relaxed">
-                            Welcome to your interactive development environment. We are building a high-fidelity turn signal/blinker stalk that operates as a native USB gamepad. This eliminates the need for flaky third-party software, making it 100% compatible with any wheel base on PC!
-                        </p>
-                    </div>
-                </div>
+    <div class="grid">
+      <article class="card">
+        <h2>Hardware</h2>
+        <ul>
+          <li>Arduino Pro Micro</li>
+          <li>USB-Kabel</li>
+          <li>Verdrahtung und Steckverbinder</li>
+          <li>Optional: RGB-LEDs</li>
+          <li>Automobil-Blinkhebel</li>
+          <li>3D-gedruckte Halterung</li>
+        </ul>
+      </article>
 
-                <!-- Interactive Checklist & BOM Cost Calculator -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Project Checklist -->
-                    <div class="bg-slate-900/40 p-6 rounded-xl border border-slate-800 space-y-4">
-                        <div class="flex items-center gap-2 mb-2">
-                            <i data-lucide="check-square" class="text-emerald-400 w-5 h-5"></i>
-                            <h3 class="font-semibold text-lg">Interactive Checklist</h3>
-                        </div>
-                        <div class="space-y-3">
-                            <label class="flex items-start gap-3 p-3 bg-slate-800/30 hover:bg-slate-800/60 rounded-lg cursor-pointer transition-colors border border-slate-800/50">
-                                <input type="checkbox" checked onchange="updateProgress()" class="checkbox-item mt-1 rounded text-blue-600 focus:ring-blue-500 border-slate-700 bg-slate-900 h-4 w-4">
-                                <div>
-                                    <span class="text-sm font-medium text-slate-200">Study plan & buy hardware</span>
-                                    <p class="text-xs text-slate-400">Order an Arduino Pro Micro (ATmega32U4) and a blinker switch.</p>
-                                </div>
-                            </label>
-                            <label class="flex items-start gap-3 p-3 bg-slate-800/30 hover:bg-slate-800/60 rounded-lg cursor-pointer transition-colors border border-slate-800/50">
-                                <input type="checkbox" onchange="updateProgress()" class="checkbox-item mt-1 rounded text-blue-600 focus:ring-blue-500 border-slate-700 bg-slate-900 h-4 w-4">
-                                <div>
-                                    <span class="text-sm font-medium text-slate-200">Map the stalk pins</span>
-                                    <p class="text-xs text-slate-400">Use a multimeter's continuity mode to identify your switch's Left, Right, GND pins.</p>
-                                </div>
-                            </label>
-                            <label class="flex items-start gap-3 p-3 bg-slate-800/30 hover:bg-slate-800/60 rounded-lg cursor-pointer transition-colors border border-slate-800/50">
-                                <input type="checkbox" onchange="updateProgress()" class="checkbox-item mt-1 rounded text-blue-600 focus:ring-blue-500 border-slate-700 bg-slate-900 h-4 w-4">
-                                <div>
-                                    <span class="text-sm font-medium text-slate-200">Upload firmware to Arduino</span>
-                                    <p class="text-xs text-slate-400">Install Joystick library and flash the Pro Micro.</p>
-                                </div>
-                            </label>
-                            <label class="flex items-start gap-3 p-3 bg-slate-800/30 hover:bg-slate-800/60 rounded-lg cursor-pointer transition-colors border border-slate-800/50">
-                                <input type="checkbox" onchange="updateProgress()" class="checkbox-item mt-1 rounded text-blue-600 focus:ring-blue-500 border-slate-700 bg-slate-900 h-4 w-4">
-                                <div>
-                                    <span class="text-sm font-medium text-slate-200">Solder components & test</span>
-                                    <p class="text-xs text-slate-400">Solder the connections and test in Windows Control Panel (`joy.cpl`).</p>
-                                </div>
-                            </label>
-                            <label class="flex items-start gap-3 p-3 bg-slate-800/30 hover:bg-slate-800/60 rounded-lg cursor-pointer transition-colors border border-slate-800/50">
-                                <input type="checkbox" onchange="updateProgress()" class="checkbox-item mt-1 rounded text-blue-600 focus:ring-blue-500 border-slate-700 bg-slate-900 h-4 w-4">
-                                <div>
-                                    <span class="text-sm font-medium text-slate-200">Enclose, Mount & Map in Game</span>
-                                    <p class="text-xs text-slate-400">3D-print/fabricate the housing, clamp it to your wheelbase/desk, and map inputs in ETS2/ATS.</p>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
+      <article class="card">
+        <h2>Entwicklungsplan</h2>
+        <ul>
+          <li>Phase 1: Recherche und Kompatibilitätsprüfung</li>
+          <li>Phase 2: Mechanisches Design und Halterungen</li>
+          <li>Phase 3: Elektronik und USB-HID-Firmware</li>
+          <li>Phase 4: Konfigurationstool und Software</li>
+          <li>Phase 5: Kompatibilitätstests mit Wheelbases</li>
+        </ul>
+      </article>
+    </div>
 
-                    <!-- Bill of Materials Calculator -->
-                    <div class="bg-slate-900/40 p-6 rounded-xl border border-slate-800 flex flex-col justify-between">
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="shopping-cart" class="text-blue-400 w-5 h-5"></i>
-                                <h3 class="font-semibold text-lg">BOM Budget Calculator</h3>
-                            </div>
-                            <p class="text-xs text-slate-400">Adjust the estimated cost of the items to fit your orders and track total spending:</p>
-                            
-                            <div class="space-y-3">
-                                <div class="flex items-center justify-between gap-4">
-                                    <span class="text-sm text-slate-300">Arduino Pro Micro (ATmega32U4)</span>
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-slate-500">$</span>
-                                        <input type="number" id="cost-arduino" value="6.50" oninput="calculateTotal()" class="w-16 bg-slate-800 border border-slate-700 rounded px-1.5 py-0.5 text-right text-sm text-slate-200">
-                                    </div>
-                                </div>
-                                <div class="flex items-center justify-between gap-4">
-                                    <span class="text-sm text-slate-300">Car / Tractor Blinker Stalk</span>
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-slate-500">$</span>
-                                        <input type="number" id="cost-stalk" value="16.00" oninput="calculateTotal()" class="w-16 bg-slate-800 border border-slate-700 rounded px-1.5 py-0.5 text-right text-sm text-slate-200">
-                                    </div>
-                                </div>
-                                <div class="flex items-center justify-between gap-4">
-                                    <span class="text-sm text-slate-300">Wire, USB Cable, Screws</span>
-                                    <div class="flex items-center gap-1">
-                                        <span class="text-slate-500">$</span>
-                                        <input type="number" id="cost-wires" value="8.00" oninput="calculateTotal()" class="w-16 bg-slate-800 border border-slate-700 rounded px-1.5 py-0.5 text-right text-sm text-slate-200">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <section>
+      <h2>Vision</h2>
+      <p>Ein erschwingliches, immersives und universelles Produkt, das für möglichst viele PC-Sim-Setups kompatibel ist.</p>
+    </section>
 
-                        <div class="border-t border-slate-800 pt-4 mt-6 flex justify-between items-center">
-                            <div>
-                                <span class="text-xs text-slate-400">Total DIY Cost:</span>
-                                <div class="text-2xl font-bold text-emerald-400" id="totalCostDisplay">$30.50</div>
-                            </div>
-                            <span class="bg-emerald-500/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-500/20">Saves ~$80+ over commercial alternatives!</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TAB 2: HARDWARE & WIRING -->
-            <section id="tab-hardware" class="tab-content hidden space-y-6">
-                <div class="bg-slate-900/40 p-6 rounded-xl border border-slate-800 space-y-6">
-                    <div>
-                        <h3 class="font-semibold text-lg flex items-center gap-2"><i data-lucide="cpu" class="text-blue-400"></i> No-Resistors Wiring Logic</h3>
-                        <p class="text-sm text-slate-400 mt-1">By enabling the internal pull-up resistors in Arduino code, we keep things incredibly clean. You only solder the pins directly to the switch, with a shared Ground (GND).</p>
-                    </div>
-
-                    <!-- Visual Wire Connection representation -->
-                    <div class="bg-slate-950 p-6 rounded-lg border border-slate-800/80 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-4">
-                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Arduino Pro Micro</span>
-                            <div class="space-y-2">
-                                <div class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded border border-slate-800">
-                                    <span class="text-xs font-mono font-bold text-blue-400">Pin 2 (RX)</span>
-                                    <span class="text-xs text-slate-400">Left Blinker Trigger</span>
-                                </div>
-                                <div class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded border border-slate-800">
-                                    <span class="text-xs font-mono font-bold text-blue-400">Pin 3 (TX)</span>
-                                    <span class="text-xs text-slate-400">Right Blinker Trigger</span>
-                                </div>
-                                <div class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded border border-slate-800">
-                                    <span class="text-xs font-mono font-bold text-blue-400">Pin 4</span>
-                                    <span class="text-xs text-slate-400">High Beams (Pull flash)</span>
-                                </div>
-                                <div class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded border border-slate-800">
-                                    <span class="text-xs font-mono font-bold text-blue-400">Pin 5</span>
-                                    <span class="text-xs text-slate-400">Horn or Wiper push button</span>
-                                </div>
-                                <div class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded border border-slate-800">
-                                    <span class="text-xs font-mono font-bold text-emerald-400">GND</span>
-                                    <span class="text-xs text-slate-400">Common Ground (Solder to Switch Common)</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Multimeter Tutorial -->
-                        <div class="bg-blue-600/5 p-4 rounded-lg border border-blue-500/10 space-y-3">
-                            <span class="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
-                                <i data-lucide="help-circle" class="w-4 h-4"></i> How to map cheap Amazon/car stalks:
-                            </span>
-                            <p class="text-xs text-slate-300 leading-relaxed">
-                                Universal stalks don't always ship with pin manuals. Don't worry! 
-                            </p>
-                            <ol class="text-xs text-slate-400 list-decimal pl-4 space-y-1.5">
-                                <li>Set your Multimeter to the <strong>Continuity</strong> setting (has a wifi/soundwave icon; it beeps when probe tips touch).</li>
-                                <li>Touch one probe to a lead and toggle the stalk to the <strong>Left</strong> position. Keep testing other leads until the meter beeps.</li>
-                                <li>This gives you the <strong>Common (GND)</strong> and <strong>Left Pin</strong>.</li>
-                                <li>Keep the probe on the <strong>Common</strong> pin, switch stalk to the <strong>Right</strong> position, and probe other pins to locate the <strong>Right Pin</strong>.</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- TAB 3: ARDUINO CODE -->
-            <section id="tab-code" class="tab-content hidden space-y-6">
-                <div class="bg-slate-900/40 p-6 rounded-xl border border-slate-800 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <h3 class="font-semibold text-lg flex items-center gap-2"><i data-lucide="terminal" class="text-blue-400"></i> Game Controller Firmware</h3>
-                            <p class="text-xs text-slate-400 mt-0.5">Flashes on your Arduino Pro Micro to act as a native Plug-and-Play USB Gamepad.</p>
-                        </div>
-                        <button onclick="copyCode()" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded text-xs transition-colors border border-slate-700">
-                            <i data-lucide="copy" class="w-4 h-4"></i> Copy Code
-                        </button>
-                    </div>
-
-                    <!-- Code block -->
-                    <pre class="bg-slate-950 p-4 rounded-lg border border-slate-800/80 overflow-x-auto text-xs font-mono text-emerald-400 leading-relaxed">
-<code id="arduino-code">#include <Joystick.h>
-
-// Define input pins
-const int PIN_LEFT_BLINKER  = 2;
-const int PIN_RIGHT_BLINKER = 3;
-const int PIN_HIGH_BEAM     = 4;
-const int PIN_HORN          = 5;
-
-// Create standard Gamepad device with 4 button inputs
-Joystick_ Joystick(
-  JOYSTICK_DEFAULT_REPORT_ID, 
-  JOYSTICK_TYPE_JOYPAD, 
-  4, 0,                  // Button Count, Hat Switch Count
-  false, false, false,   // No X, Y, or Z movement
-  false, false, false,   // No rotary axes
-  false, false,          // No rudder/throttle
-  false, false, false    // No racing axes
-);
-
-void setup() {
-  // Use internal pullup resistors - connects button output straight to pins
-  pinMode(PIN_LEFT_BLINKER, INPUT_PULLUP);
-  pinMode(PIN_RIGHT_BLINKER, INPUT_PULLUP);
-  pinMode(PIN_HIGH_BEAM, INPUT_PULLUP);
-  pinMode(PIN_HORN, INPUT_PULLUP);
-
-  Joystick.begin();
-}
-
-void loop() {
-  // Read pins and update buttons. Active low: digitalRead of LOW means button pressed.
-  Joystick.setButton(0, !digitalRead(PIN_LEFT_BLINKER));
-  Joystick.setButton(1, !digitalRead(PIN_RIGHT_BLINKER));
-  Joystick.setButton(2, !digitalRead(PIN_HIGH_BEAM));
-  Joystick.setButton(3, !digitalRead(PIN_HORN));
-
-  delay(10); // Debounce
-}</code></pre>
-                </div>
-            </section>
-
-            <!-- TAB 4: CHASSIS & MOUNTING -->
-            <section id="tab-chassis" class="tab-content hidden space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 space-y-3">
-                        <div class="bg-blue-600/10 p-2.5 rounded-lg text-blue-400 w-fit">
-                            <i data-lucide="monitor"></i>
-                        </div>
-                        <h4 class="font-bold text-slate-200">Option 1: Desktop G-Clamp</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">Best for players who disassemble their setups. Design a housing with a bottom 1/4" metal thread nut insert or a dual-wing clamp slot to lock down right next to your steering wheel on any desk.</p>
-                    </div>
-
-                    <div class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 space-y-3">
-                        <div class="bg-emerald-600/10 p-2.5 rounded-lg text-emerald-400 w-fit">
-                            <i data-lucide="disc"></i>
-                        </div>
-                        <h4 class="font-bold text-slate-200">Option 2: Wheelbase Spacer</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">Ideal for standard wheelbases (Moza, Fanatec). Create a slim circular plate that fits sandwiched between your wheelbase and the desk/rig mount. Extend an arm out to mount the stalk right behind the wheel rim.</p>
-                    </div>
-
-                    <div class="bg-slate-900/40 p-5 rounded-xl border border-slate-800 space-y-3">
-                        <div class="bg-purple-600/10 p-2.5 rounded-lg text-purple-400 w-fit">
-                            <i data-lucide="grid"></i>
-                        </div>
-                        <h4 class="font-bold text-slate-200">Option 3: Aluminum Rig Profile</h4>
-                        <p class="text-xs text-slate-400 leading-relaxed">For high-end setups. Add standardized M6 mounting holes on the back of your chassis spaced 40mm apart. Lock it in with standard T-Nuts directly into your aluminum profile rig posts.</p>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900/40 p-6 rounded-xl border border-slate-800 space-y-3">
-                    <h3 class="font-semibold text-lg flex items-center gap-2"><i data-lucide="info" class="text-blue-400"></i> Design Tolerances Checklist</h3>
-                    <ul class="text-xs text-slate-300 space-y-2 list-disc pl-5">
-                        <li>Measure the main shaft diameter of your replacement stalk switch using digital calipers. Stalk bases are typically <strong>~22mm or ~25mm</strong>.</li>
-                        <li>Include a built-in cable route and strain-relief channel for the Micro-USB cable inside the casing to prevent tearing during high-feedback wheel vibrations.</li>
-                        <li>Maintain a clearance of <strong>0.2mm</strong> for 3D printing tolerances on tight snapping components.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- TAB 5: GAMES -->
-            <section id="tab-games" class="tab-content hidden space-y-6">
-                <div class="bg-slate-900/40 p-6 rounded-xl border border-slate-800 space-y-4">
-                    <h3 class="font-semibold text-lg flex items-center gap-2"><i data-lucide="gamepad-2" class="text-blue-400"></i> Simulator Setup Instructions</h3>
-                    <p class="text-sm text-slate-400">Because we've made this a standard USB gamepad, mapping couldn't be simpler!</p>
-
-                    <div class="space-y-4">
-                        <div class="p-4 bg-slate-950 rounded-lg border border-slate-800 space-y-1">
-                            <div class="flex items-center gap-2 text-blue-400 font-bold text-sm">
-                                <i data-lucide="truck" class="w-4 h-4"></i> Euro Truck / American Truck Sim
-                            </div>
-                            <p class="text-xs text-slate-300">Open <strong>Options -> Controls</strong>, scroll down to controllers, and ensure your "Arduino Gamepad" is listed as an active device alongside your steering wheel. Go to <strong>Keys & Buttons</strong> and map Left Signal, Right Signal, High Beam, and Horn directly by triggering your physical switches.</p>
-                        </div>
-
-                        <div class="p-4 bg-slate-950 rounded-lg border border-slate-800 space-y-1">
-                            <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm">
-                                <i data-lucide="gauge" class="w-4 h-4"></i> Assetto Corsa (via Content Manager)
-                            </div>
-                            <p class="text-xs text-slate-300">Under <strong>Settings -> Assetto Corsa -> Controls -> Buttons</strong>, scroll to Patch bindings (or CSP Custom bindings). Assign Left Signal and Right Signal to the registered Joystick button inputs.</p>
-                        </div>
-
-                        <div class="p-4 bg-slate-950 rounded-lg border border-slate-800 space-y-1">
-                            <div class="flex items-center gap-2 text-purple-400 font-bold text-sm">
-                                <i data-lucide="car" class="w-4 h-4"></i> BeamNG.drive
-                            </div>
-                            <p class="text-xs text-slate-300">Go to <strong>Options -> Controls -> Bindings</strong>. Filter by <strong>Vehicle</strong>, click <strong>Toggle Left Signal</strong> and toggle your physical stalk left. It will bind instantly and work seamlessly on any vehicle in game!</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </div>
-    </main>
-
-    <!-- JS code to control interactive elements -->
-    <script>
-        // Init Lucide Icons
-        lucide.createIcons();
-
-        // Switch Tabs
-        function switchTab(tabId) {
-            // Hide all tab contents
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            // Show selected tab
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
-
-            // Reset buttons style
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.className = "tab-btn w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-medium transition-all text-slate-400 hover:bg-slate-800/50 hover:text-slate-200";
-            });
-
-            // Highlight active button
-            const activeBtn = document.getElementById('btn-' + tabId);
-            activeBtn.className = "tab-btn w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 font-medium transition-all bg-blue-600/10 text-blue-400 border border-blue-500/20";
-        }
-
-        // Copy Arduino Sketch to clipboard
-        function copyCode() {
-            const codeText = document.getElementById('arduino-code').innerText;
-            navigator.clipboard.writeText(codeText).then(() => {
-                alert('Arduino Sketch copied to clipboard! Paste it directly into your Arduino IDE.');
-            }).catch(err => {
-                console.error('Failed to copy code: ', err);
-            });
-        }
-
-        // Dynamic BOM Calculator
-        function calculateTotal() {
-            const costArduino = parseFloat(document.getElementById('cost-arduino').value) || 0;
-            const costStalk = parseFloat(document.getElementById('cost-stalk').value) || 0;
-            const costWires = parseFloat(document.getElementById('cost-wires').value) || 0;
-            
-            const total = costArduino + costStalk + costWires;
-            document.getElementById('totalCostDisplay').innerText = '$' + total.toFixed(2);
-        }
-
-        // Interactive Checklist Progress
-        function updateProgress() {
-            const checkboxes = document.querySelectorAll('.checkbox-item');
-            let checkedCount = 0;
-            checkboxes.forEach(box => {
-                if(box.checked) checkedCount++;
-            });
-
-            const percent = Math.round((checkedCount / checkboxes.length) * 100);
-            document.getElementById('progressBar').style.width = percent + '%';
-            document.getElementById('progressText').innerText = percent + '%';
-        }
-
-        // Run on load to init
-        updateProgress();
-        calculateTotal();
-    </script>
+    <div class="footer">
+      <p>Erstellt für den Hackathon. Letzte Aktualisierung: 2026.</p>
+    </div>
+  </main>
 </body>
 </html>
